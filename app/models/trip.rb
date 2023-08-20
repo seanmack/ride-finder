@@ -2,8 +2,6 @@ class Trip < ApplicationRecord
   belongs_to :driver
   belongs_to :ride
 
-  # todo remove commute_distance
-
   after_create :compile_metrics!
 
   validates :driver_id, uniqueness: {scope: :ride_id}

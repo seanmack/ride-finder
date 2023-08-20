@@ -31,7 +31,6 @@ class AnalyzeTripJob
   def update_trip!(trip:, trip_metrics:)
     trip.ride_distance = trip_metrics.ride_distance_in_meters
     trip.ride_duration = trip_metrics.ride_duration_in_minutes
-    trip.commute_distance = trip_metrics.commute_duration_in_minutes
     trip.commute_duration = trip_metrics.commute_duration_in_minutes
     trip.calculate_score
     trip.save!

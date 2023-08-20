@@ -5,7 +5,6 @@ RSpec.describe Trip, type: :model do
     it { should have_db_column(:driver_id).of_type(:integer).with_options(null: false) }
     it { should have_db_column(:ride_id).of_type(:integer).with_options(null: false) }
     it { should have_db_column(:score).of_type(:integer).with_options(default: 0) }
-    it { should have_db_column(:commute_distance).of_type(:integer).with_options(default: 0) }
     it { should have_db_column(:commute_duration).of_type(:integer).with_options(default: 0) }
     it { should have_db_column(:ride_distance).of_type(:integer).with_options(default: 0) }
     it { should have_db_column(:ride_duration).of_type(:integer).with_options(default: 0) }
