@@ -1,3 +1,19 @@
+# Calculates the score for a trip and stores it in the database.
+#
+# The score is calculated as the average earnings in cents per hour for a trip.
+# For example, say we start with a base pay of $12. We then add overage amounts
+# for any distance traveled or time spent in excess of given thresholds.
+# We then divide the total earnings by the total time spent on the trip.
+#
+# Note:
+#   * A trip is considered to start when the driver leaves their home
+#     and end when they reach a drop off location, with the pick up location
+#     as a waypoint in between.
+#
+#   * To make persistence and logic easier, durations are stored in minutes,
+#     distances are stored in meters, and earnings are stored in cents. These
+#     can be converted as necessary for display purposes.
+#
 class Trip < ApplicationRecord
   belongs_to :driver
   belongs_to :ride
