@@ -4,7 +4,6 @@ module GoogleMapsService
       return if invalid_params(origin, destination)
 
       location_params = format_location_params(origin:, destination:, waypoints:)
-
       response = get_request(url: "directions/json", params: location_params)
       parse_api_response(response)
     end

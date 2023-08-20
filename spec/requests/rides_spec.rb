@@ -12,7 +12,7 @@ RSpec.describe "Rides", type: :request do
 
       3.times do
         ride = Ride.create!
-        trip = Trip.create!(driver: driver, ride: ride)
+        Trip.create!(driver: driver, ride: ride)
       end
 
       get api_v1_rides_path, params: {driver_id: driver.id}
@@ -23,7 +23,7 @@ RSpec.describe "Rides", type: :request do
     it "returns ride details" do
       driver = Driver.create!
       ride = Ride.create!
-      trip = Trip.create!(driver: driver, ride: ride, score: 1000)
+      Trip.create!(driver: driver, ride: ride, score: 1000)
 
       get api_v1_rides_path, params: {driver_id: driver.id}
 
@@ -40,7 +40,7 @@ RSpec.describe "Rides", type: :request do
 
       ride_count.times do
         ride = Ride.create!
-        trip = Trip.create!(driver: driver, ride: ride)
+        Trip.create!(driver: driver, ride: ride)
       end
 
       get api_v1_rides_path, params: {driver_id: driver.id}

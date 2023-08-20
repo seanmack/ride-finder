@@ -37,15 +37,13 @@ You'll need the following installed
 1. `bundle exec sidekiq`
     * Run jobs enqueued by `seeds.rb`, e.g. to create and populate `Trips` using Google Directions API data
 1. `bundle exec rspec`
-    * Run the test suite
+    * Optional: run the test suite
 1. `bin/rails s`
     * Start the server
 1. `rake trips:recompile_metrics`
-    * Reset all trip metrics (enqueues jobs that call Google Directions API)
+    * Optional: reset all trip metrics (enqueues jobs that call Google Directions API)
 
 ## Viewing the data
-
-
 
 ```bash
 curl "http://localhost:3000/api/v1/rides?driver_id=1&page=1"
@@ -122,5 +120,3 @@ The app uses `score` to order results for the `/rides` endpoint.
 
 * Currently, the app requires a `Trip` to join every `Ride` and `Driver` combination. At scale, that would create a ton of records. One alternative might be to create a `Trip` only when a `Ride` and `Driver` are geographically close to each other.
 * I reduced the need for new API calls by persisting the necessary data in the database, i.e. as a `Trip`. I considered instead caching the API results and score calculations, but I assume addresses and suggested routes don't change too often, so the database seemed like a better fit, if only to make testing easier. It also seems more reliable, e.g. the Google Maps API going down or a switch to another directions API wouldn't impact existing records.
-
-
