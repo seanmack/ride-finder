@@ -33,6 +33,7 @@ RSpec.describe GoogleMapsService::Directions do
       )
 
       expect(trip_metrics).to be_a(GoogleMapsService::TripMetrics)
+      expect(trip_metrics.ride_distance_in_meters).to eq(74992)
     end
   end
 
