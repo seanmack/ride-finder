@@ -1,47 +1,38 @@
 # Ride Finder
 
-Ride Finder is a demo API for a ride-scheduling service.
+Ride Finder is a code example of an endpoint for a ride-scheduling service. It's
+built with Ruby on Rails and uses Redis and Sidekiq for background jobs.
 
 The sole endpoint returns a paginated list of rides sorted by potential earnings per hour.
-
-
-## Live demo
-
-* [View results in a browser](https://damp-falls-35370-e2dffa311f61.herokuapp.com/api/v1/rides?driver_id=1&page=1)
-
-*
-   ```bash
-   curl "https://damp-falls-35370-e2dffa311f61.herokuapp.com/api/v1/rides?driver_id=1&page=1"
-   ```
-
 
 ## Prerequisites
 
 You'll need the following installed
- * Ruby 3.0 or higher
- * Redis - `brew redis`
- * PostgreSQL - `brew install postgresql`
- * bundler - `gem install bundler`
+
+- Ruby 3.0 or higher
+- Redis - `brew redis`
+- PostgreSQL - `brew install postgresql`
+- bundler - `gem install bundler`
 
 ## Quick start
 
 1. Make sure postgres is running
 1. `bin/setup`
-    * Install dependencies and setup the database
+   - Install dependencies and setup the database
 1. `bin/rails credentials:edit`
-    * Add the below ([how to get an API key](https://developers.google.com/maps/documentation/directions/start#create-project)):
-      ```
-        google_maps:
-          api_key: your-api-key
-      ```
+   - Add the below ([how to get an API key](https://developers.google.com/maps/documentation/directions/start#create-project)):
+     ```
+       google_maps:
+         api_key: your-api-key
+     ```
 1. `bundle exec sidekiq`
-    * Run jobs enqueued by `seeds.rb`, e.g. to create and populate `Trips` using Google Directions API data
+   - Run jobs enqueued by `seeds.rb`, e.g. to create and populate `Trips` using Google Directions API data
 1. `bundle exec rspec`
-    * Optional: run the test suite
+   - Optional: run the test suite
 1. `bin/rails s`
-    * Start the server
+   - Start the server
 1. `rake trips:recompile_metrics`
-    * Optional: reset all trip metrics (enqueues jobs that call Google Directions API)
+   - Optional: reset all trip metrics (enqueues jobs that call Google Directions API)
 
 ## Viewing the data
 
@@ -90,6 +81,7 @@ You should see something like the below. Change the `driver_id` and `page` param
    }
 }
 ```
+
 ---
 
 ## How it works
@@ -113,10 +105,3 @@ A `Trip` is a join model for `Ride` and `Driver`. It persists metrics related to
 Trip metrics are retrieved from the Google Directions API and compiled into a `score`, which reflects the earnings per hour a driver might expect to earn for a particular ride.
 
 The app uses `score` to order results for the `/rides` endpoint.
-
----
-
-### Notes
-
-* Currently, the app requires a `Trip` to join every `Ride` and `Driver` combination. At scale, that would create a ton of records. One alternative might be to create a `Trip` only when a `Ride` and `Driver` are geographically close to each other.
-* I reduced the need for new API calls by persisting the necessary data in the database, i.e. as a `Trip`. I considered instead caching the API results and score calculations, but I assume addresses and suggested routes don't change too often, so the database seemed like a better fit, if only to make testing easier. It also seems more reliable, e.g. the Google Maps API going down or a switch to another directions API wouldn't impact existing records.
